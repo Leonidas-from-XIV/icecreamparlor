@@ -15,7 +15,7 @@ let read_input () =
         match In_channel.input_line In_channel.stdin, In_channel.input_line In_channel.stdin, In_channel.input_line In_channel.stdin with
         | Some money, Some _, Some costs ->
           let money = Int.of_string money in
-          let costs = String.split costs ~on:' ' |> List.map ~f:Int.of_string in
+          let costs = String.strip costs |> String.split ~on:' ' |> List.map ~f:Int.of_string in
           { money; costs; }
         | _ -> failwith "Invalid format")
   | None -> failwith "No num"
