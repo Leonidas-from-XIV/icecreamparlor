@@ -23,6 +23,7 @@ let read_input () =
           let costs_array = Array.create ~len (0, 0) in
           let costs =
             costs
+            |> String.strip
             |> String.split ~on:' '
             |> List.mapi ~f:(fun index v ->
               let price = Int.of_string v in
