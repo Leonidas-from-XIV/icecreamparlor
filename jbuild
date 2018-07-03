@@ -1,4 +1,4 @@
 (executable
  ((name icecreamparlor)
   (public_name icecreamparlor)
-  (libraries (base))))
+  (libraries (base stdio))))
