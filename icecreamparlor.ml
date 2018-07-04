@@ -21,9 +21,9 @@ let read_input () =
   | None -> failwith "No num"
 
 let pick_second
-  : int -> (int * int) list -> (int * int) option
-  = fun remaining ->
-  List.find ~f:(fun (price, _original_index) -> Int.equal remaining price)
+  : int -> (int * int) list -> int option
+  = fun remaining prices ->
+  List.Assoc.find prices ~equal:Int.equal remaining
 
 let rec pick money = function
   | [] -> None
@@ -33,7 +33,7 @@ let rec pick money = function
     let remaining = money - price in
     match pick_second remaining prices with
     | None -> pick money prices
-    | Some (second_index, _second_price) ->
+    | Some second_index ->
       match index < second_index with
       | true -> Some (index, second_index)
       | false -> Some (second_index, index)
@@ -44,13 +44,13 @@ let solve { money; costs } =
   in
 
   costs
-  |> List.mapi ~f:(fun index e -> (e, Int.succ index))
+  |> List.mapi ~f:(fun index e -> (e, index))
   |> List.sort ~compare:rev_compare
   |> pick money
 
 let print_solution = function
   | None -> print_endline "No solution"
-  | Some (smaller, larger) -> Caml.Printf.printf "%d %d\n" smaller larger
+  | Some (smaller, larger) -> Caml.Printf.printf "%d %d\n" (smaller + 1) (larger + 1)
 
 let main () =
   read_input ()
